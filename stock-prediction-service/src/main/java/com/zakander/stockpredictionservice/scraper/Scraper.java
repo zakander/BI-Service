@@ -10,7 +10,6 @@ import org.jsoup.nodes.Element;
 
 public class Scraper {
 	private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
-	private static LocalDate latestDate = LocalDate.now();
 	
 	public enum StockType {
 		CRYPTO,
@@ -64,19 +63,17 @@ public class Scraper {
 				String low = row.select("td:nth-of-type(4)").text();
 				String close = row.select("td:nth-of-type(5)").text();
 				String adjClose = row.select("td:nth-of-type(6)").text();
-				String volume = row.select("td:nth-of-type(7)").text();
 				
 				open = open.replaceAll(",", "");
 				high = high.replaceAll(",", "");
 				low = low.replaceAll(",", "");
 				close = close.replaceAll(",", "");
 				adjClose = adjClose.replaceAll(",", "");
-				volume = volume.replaceAll(",", "");
 				
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 				LocalDate date = LocalDate.parse(dateStr, formatter);
 				
-				String[] values = new String[] {open, high, low, close, adjClose, volume};
+				String[] values = new String[] {open, high, low, close, adjClose};
 				dB.put(date, values);
 				
 				if (++counter == numDays) {break;}

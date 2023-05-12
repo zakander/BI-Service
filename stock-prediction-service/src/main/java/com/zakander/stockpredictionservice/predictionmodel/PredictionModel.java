@@ -36,7 +36,6 @@ public class PredictionModel {
 		Double lowSum = 0.0;
 		Double closeSum = 0.0;
 		Double adjCloseSum = 0.0;
-		Double volumeSum = 0.0;
 		
 		for (String[] values : data.values()) {
 			openSum += Double.parseDouble(values[0]);
@@ -44,7 +43,6 @@ public class PredictionModel {
 			lowSum += Double.parseDouble(values[0]);
 			closeSum += Double.parseDouble(values[0]);
 			adjCloseSum += Double.parseDouble(values[0]);
-			volumeSum += Double.parseDouble(values[0]);
 		}
 		
 		openSum /= numDays;
@@ -52,33 +50,31 @@ public class PredictionModel {
 		lowSum /= numDays;
 		closeSum /= numDays;
 		adjCloseSum /= numDays;
-		volumeSum /= numDays;
 		
 		return new String[] {Double.toString(openSum),
 							Double.toString(highSum),
 							Double.toString(lowSum),
 							Double.toString(closeSum),
-							Double.toString(adjCloseSum),
-							Double.toString(volumeSum)};
+							Double.toString(adjCloseSum)};
 	}
 	
 	public static String[] EMA(StockType stockType, String symbol, int numDays) {
 		TreeMap<LocalDate, String[]> data = Scraper.scrape(stockType, symbol, numDays);
 		
-		Double[] EMAVals = new Double[6];
+		Double[] EMAVals = new Double[5];
 		double k = 2.0 / (numDays + 1);
 		boolean firstChecked = false;
 		for (String[] inputValues : data.values()) {
 			
 			if (!firstChecked) {
-				for (int i=0; i<6; i++) {
+				for (int i=0; i<5; i++) {
 					EMAVals[i] = Double.parseDouble(inputValues[i]);
 				}
 				firstChecked = true;
 				continue;
 			}
 			
-			for (int i=0; i<6; i++) {
+			for (int i=0; i<5; i++) {
 				double currVal = Double.parseDouble(inputValues[i]);
 				EMAVals[i] = currVal*k + EMAVals[i]*(1-k);
 			}
@@ -91,7 +87,6 @@ public class PredictionModel {
 				String.format("%.2f", EMAVals[2]),
 				String.format("%.2f", EMAVals[3]),
 				String.format("%.2f", EMAVals[4]),
-				String.format("%.2f", EMAVals[5]),
 		};
 		
 		return ret;

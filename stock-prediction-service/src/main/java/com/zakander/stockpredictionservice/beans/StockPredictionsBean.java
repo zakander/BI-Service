@@ -6,7 +6,6 @@ public class StockPredictionsBean {
 	private String low;
 	private String close;
 	private String adjClose;
-	private String volume;
 	
 	public StockPredictionsBean(String[] values) {
 		this.open = values[0];
@@ -14,7 +13,6 @@ public class StockPredictionsBean {
 		this.low = values[2];;
 		this.close = values[3];
 		this.adjClose = values[4];
-		this.volume = values[5];
 	}
 
 	public String getOpen() {
@@ -55,13 +53,5 @@ public class StockPredictionsBean {
 
 	public void setAdjClose(String adjClose) {
 		this.adjClose = adjClose;
-	}
-
-	public String getVolume() {
-		return volume;
-	}
-
-	public void setVolume(String volume) {
-		this.volume = volume;
 	}
 }
