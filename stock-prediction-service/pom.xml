@@ -20,6 +20,7 @@
         <!-- Minimal version for compiling TensorFlow Java is JDK 8 -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <tensorflow.version>0.4.0</tensorflow.version>
 	</properties>
 	
 	<dependencyManagement>
@@ -75,12 +76,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.yahoofinance-api</groupId>
-			<artifactId>YahooFinanceAPI</artifactId>
-			<version>3.17.0</version>
-		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
 			<groupId>org.jsoup</groupId>
@@ -129,12 +124,6 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
 		
-		<!--<dependency>
-			<groupId>org.tensorflow</groupId>
-			<artifactId>tensorflow-core-platform</artifactId>
-			<version>0.5.0</version>
-		</dependency>-->
-		
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -167,8 +156,20 @@
 			<version>6.2.2.Final</version>
 			<type>pom</type>
 		</dependency>
-
-
+		
+		<!-- https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core -->
+		<dependency>
+			<groupId>org.deeplearning4j</groupId>
+			<artifactId>deeplearning4j-core</artifactId>
+			<version>1.0.0-M2.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform -->
+		<dependency>
+			<groupId>org.nd4j</groupId>
+			<artifactId>nd4j-native-platform</artifactId>
+			<version>1.0.0-M2.1</version>
+		</dependency>
 	
 	</dependencies>
 

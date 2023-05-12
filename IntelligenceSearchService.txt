@@ -1,0 +1,41 @@
+
+    Intelligent Search Results 
+
+Assumptions
+    A Dynamo Db exists. 
+    We make no presumptions about the database. 
+    We are given correct keys. 
+    Users know how to use this microservice, so some keys might be better suited for recursive searches than other keys?
+
+Goals:
+    
+    1. Return Exact Search Result/Results or  Return Closest Search Result/Results. 
+
+        -   Return data with a csv format. 
+        -   Return data in a raw format. 
+            
+    2. Customisable result generator with either Exact Searches / Closest Search Results. 
+
+        -   Can return multiple different columns, whereby the Exact operation was performed on 
+            one column key. 
+        
+        -   In the scenario where Closest Search Result was performed, we can take a limit value and 
+            return limit closest calues to the given search result for the specified column key. 
+        
+        -   We can perform closest recursive searches which can also have branches for a specified key. 
+            So given key X, perform closest search for "description", it will then find the limit number 
+            of results which are closest to the "description". If you have the branch option, then we recursively 
+            perform the same operation for those results.  ("Intelligent Aspect")
+    
+    3.  It will also tell the user what exact names for given tags have not been found, and prompt them to 
+        update there database. 
+
+
+Inputs:
+    List of Keys to return results for : [],
+    Specified Key : String, 
+    Closest Or Exact Search Flag : 0, 
+    Limit : Int,
+    CSV Flag : 0,
+    Recursive Flag : 0
+

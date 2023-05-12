@@ -1,0 +1,94 @@
+
+Web Scraping Service from Bloomberg for Public and Private Companies. 
+
+Goals
+    1. Scrape Data from Bloomberg.
+
+    2. Input Data into respective Database. 
+
+Goal 1 : Scrape Data from Bloomberg
+    How do we scrape? 
+        Adaptive Scraping 
+            Inputs: 
+
+                A List of String Type Variable containing the Company Name.
+                String for the User Name.
+                String for the User Phone Number.
+                Int for the TimeStamp  ? We might need this, what if user makes multiple requests with the same phone number at different times?
+                Bool for the message Flag.  
+
+            Functionality: 
+            
+                For each company name in the list, scrape data for that company name from 
+                the bloomberg site. Update the database for that company name / url. 
+                
+                Once every company name in that list has been completed, than you check the 
+                message flag. If the message flag is True, than we should send a text message  
+                to phone number saying data has been scraped, now they can read from it. 
+                (SNS / SQS)
+
+                This method can only handle 1 request at a time, utilise multi-threading to solve 
+                this issue. Can be a bit complicated due to the nature of Java and Springboot. 
+
+                Create a specialised function which can estimate how long it will take for the 
+                data they gave to be scraped by looking at how many data needs to be scrape for this 
+                thread and for other threads (by reading that data structure). 
+
+            Implementation Details:
+
+                1.  Currently in terms of scraping we will be using search engines with selenium along 
+                    with API requests. 
+                
+                2.  Each Request to the Adaptive Scraping API, uses a thread from the thread pool. We can't 
+                    make too many requests at the same time, so what we can do is use shared variables. 
+                    More specifically, 1 thread per User Phone Number. We can also immediately return how 
+                    long it will take to scrape these results. 
+
+                    Data is shared by every single thread. All threads spawned from a reqeust, can technically 
+                    update these data structures. 
+
+                    {
+                        CompletedQueue = []
+                        NotCompletedQueue = [] 
+                        CompanyNamesToPhoneNumbers = {} // String to List of Phone Numbers 
+                        PhoneNumbersToCompanyNames = {} // String to List of Company Names 
+                    } 
+
+                    The above is very complicated.
+            
+            Why do we need multi-threading?  
+
+                For N post requests, a thread will be created, this can be very useful if you're 
+                simply reading from a database, but if you're updating a database with N requests, 
+                now it get's a bit more complicated. Each update happens after some data has been 
+                scraped which takes [t, t+u] time, so ideally we should have 1 thread which scrapes
+                data and updates the shared data and database. The thread which scrapes, also can 
+                sleep for a while too, meaning this entire process should be asynchronous too.
+                We have another thread which regularly checks what has been completed, which also 
+                updates the the shared data. This, thread is the thread which should trigger the
+                SNS / SQS services. So really we need 2 threads that do most of the work. 
+
+                So, in total between time 0 and time t, if there are N requests, that mean's we will have 
+                N+2 threads running, however each of those N threads spawned from have a short life time, 
+                the only work they really do is updating the shared data and estimating how long it will
+                take for the users data to be scraped, and they return this data back to the user. 
+                
+                And, the two threads that do the most work should be stored in an executor for asynchronous 
+                execution. So now, you really have 2 threads that are doing the bulk of the work, 1 which 
+                will sleep in some intervals. In this interval where it is sleeping, the other thread 
+                which checks for the completion of tasks should be run. So we might need to manually 
+                handle this task, so we can effectively use the given CPU.
+
+Goal 2 : Update Database from the thread which scrapes the company results. 
+
+    Synchronous Updates. This is the ONLY thread which will be changing the database AND updates the some of the shared data structures. 
+
+
+
+                
+
+
+
+        
+
+                
