@@ -26,7 +26,7 @@ public class StockModelController {
 			@PathVariable int numDays) {
 		
 		StockModel model = new StockModel(1000L, symbol, numDays);
-		String[] predictions = model.getPredictions(StockType.INDEX, symbol, numDays);
+		String[] predictions = model.getPredictions(symbol, numDays);
 		return new StockPredictionsBean(predictions);
 	}
 }

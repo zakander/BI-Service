@@ -7,9 +7,8 @@ import com.zakander.stockpredictionservice.scraper.Scraper;
 import com.zakander.stockpredictionservice.scraper.Scraper.StockType;
 
 public class PredictionModel {
-	public static String[] predict(StockType stockType, String symbol, int numDays) {
-		System.out.println(stockType + ", " + symbol + ", " + numDays);
-		TreeMap<LocalDate, String[]> data = Scraper.scrape(stockType, symbol, numDays);
+	public static String[] predict(String symbol, int numDays) {
+		TreeMap<LocalDate, String[]> data = Scraper.scrape(symbol, numDays);
 		
 		for (LocalDate date : data.keySet()) {
 			System.out.println(date + ": " + data.get(date));
@@ -28,8 +27,8 @@ public class PredictionModel {
 //		return String.format("%.2f", Double.toString(sum));
 //	}
 	
-	public static String[] SMA(StockType stockType, String symbol, int numDays) {
-		TreeMap<LocalDate, String[]> data = Scraper.scrape(stockType, symbol, numDays);
+	public static String[] SMA(String symbol, int numDays) {
+		TreeMap<LocalDate, String[]> data = Scraper.scrape(symbol, numDays);
 		
 		Double openSum = 0.0;
 		Double highSum = 0.0;
@@ -58,8 +57,8 @@ public class PredictionModel {
 							Double.toString(adjCloseSum)};
 	}
 	
-	public static String[] EMA(StockType stockType, String symbol, int numDays) {
-		TreeMap<LocalDate, String[]> data = Scraper.scrape(stockType, symbol, numDays);
+	public static String[] EMA(String symbol, int numDays) {
+		TreeMap<LocalDate, String[]> data = Scraper.scrape(symbol, numDays);
 		
 		Double[] EMAVals = new Double[5];
 		double k = 2.0 / (numDays + 1);

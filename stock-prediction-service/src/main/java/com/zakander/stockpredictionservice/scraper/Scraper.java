@@ -17,20 +17,32 @@ public class Scraper {
 		CURRENCY;
 	}
 	
-	public static TreeMap<LocalDate, String[]> scrape(StockType stockType, String symbol, int numDays) {
-		
+	public static StockType getStockType(String symbol) {
+		if (symbol.charAt(0) == '^') {
+			return StockType.INDEX;
+		}
+		if (symbol.contains("=X")) {
+			return StockType.CURRENCY;
+		}
+		return StockType.CRYPTO;
+	}
+	
+	public static TreeMap<LocalDate, String[]> scrape(String symbol, int numDays) {
 		String url = BASE_URL;
+		
+		StockType stockType = getStockType(symbol);
 		
 		switch (stockType) {
 			case CRYPTO:
-				url = (url + "<F>?p=<F>").replaceAll("<F>", symbol);
+				url = (url + "<F>/history?p=<F>").replaceAll("<F>", symbol);
 				break;
 			case INDEX:
-				url = (url + "%5E<F>/history?p=%5E<F>").replaceAll("<F>", symbol);
+				String newSymb = symbol.replaceAll("\\^", "");
+				url = (url + "%5E<F>/history?p=%5E<F>").replaceAll("<F>", newSymb);
 				break;
 			case CURRENCY:
-				symbol = symbol.replaceAll("=X", "");
-				url = (url + "<F>%3DX?p=<F>%3DX").replaceAll("<F>", symbol);
+				String newSymb1 = symbol.replaceAll("=X", "");
+				url = (url + "<F>%3DX/history?p=<F>%3DX").replaceAll("<F>", newSymb1);
 				break;
 			default:
 				break;

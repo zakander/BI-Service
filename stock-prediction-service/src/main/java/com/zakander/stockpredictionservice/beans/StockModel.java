@@ -53,7 +53,7 @@ public class StockModel {
 		this.numDays = numDays;
 	}
 	
-	public String[] getPredictions(StockType stockType, String symbol, int numDays) {
-		return PredictionModel.EMA(stockType, symbol, numDays);
+	public String[] getPredictions(String symbol, int numDays) {
+		return PredictionModel.EMA(symbol, numDays);
 	}
 }
