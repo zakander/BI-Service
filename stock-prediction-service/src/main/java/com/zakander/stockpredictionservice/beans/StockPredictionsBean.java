@@ -1,6 +1,7 @@
 package com.zakander.stockpredictionservice.beans;
 
 public class StockPredictionsBean {
+	private String stockSymbol;
 	private String open;
 	private String high;
 	private String low;
@@ -8,11 +9,20 @@ public class StockPredictionsBean {
 	private String adjClose;
 	
 	public StockPredictionsBean(String[] values) {
-		this.open = values[0];
-		this.high = values[1];
-		this.low = values[2];;
-		this.close = values[3];
-		this.adjClose = values[4];
+		this.stockSymbol = values[0];
+		this.open = values[1];
+		this.high = values[2];
+		this.low = values[3];;
+		this.close = values[4];
+		this.adjClose = values[5];
+	}
+
+	public String getStockSymbol() {
+		return stockSymbol;
+	}
+
+	public void setStockSymbol(String stockSymbol) {
+		this.stockSymbol = stockSymbol;
 	}
 
 	public String getOpen() {

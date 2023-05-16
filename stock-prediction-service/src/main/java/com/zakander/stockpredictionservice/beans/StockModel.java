@@ -1,6 +1,10 @@
 package com.zakander.stockpredictionservice.beans;
 
+import java.time.LocalDate;
+import java.util.TreeMap;
+
 import com.zakander.stockpredictionservice.predictionmodel.PredictionModel;
+import com.zakander.stockpredictionservice.scraper.Scraper;
 import com.zakander.stockpredictionservice.scraper.Scraper.StockType;
 
 import jakarta.persistence.Column;
@@ -53,7 +57,10 @@ public class StockModel {
 		this.numDays = numDays;
 	}
 	
-	public String[] getPredictions(String symbol, int numDays) {
+	public String[] getPredictions(String symbol, int numDays, String model) {
+		if (model.equals("SMA")) {
+			return PredictionModel.SMA(symbol, numDays);
+		}
 		return PredictionModel.EMA(symbol, numDays);
 	}
 }

@@ -20,13 +20,14 @@ public class StockModelController {
 		this.service = service;
 	}
 
-	@GetMapping("/stock-prediction/{symbol}/{numDays}")
+	@GetMapping("/stock-prediction/{symbol}/{numDays}/{modelType}")
 	public StockPredictionsBean retrieveModel(
 			@PathVariable String symbol,
-			@PathVariable int numDays) {
+			@PathVariable int numDays,
+			@PathVariable String modelType) {
 		
 		StockModel model = new StockModel(1000L, symbol, numDays);
-		String[] predictions = model.getPredictions(symbol, numDays);
+		String[] predictions = model.getPredictions(symbol, numDays, modelType);
 		return new StockPredictionsBean(predictions);
 	}
 }

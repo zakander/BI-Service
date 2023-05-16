@@ -12,12 +12,17 @@ public class Scraper {
 	private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
 	
 	public enum StockType {
+		// Used to format the link for online historical data
 		CRYPTO,
 		INDEX,
 		CURRENCY;
 	}
 	
 	public static StockType getStockType(String symbol) {
+		/*
+		 * Special characters in input string for stock
+		 * indicate whether it is an index, currency or cryptocurrency
+		 */
 		if (symbol.charAt(0) == '^') {
 			return StockType.INDEX;
 		}
@@ -28,6 +33,11 @@ public class Scraper {
 	}
 	
 	public static TreeMap<LocalDate, String[]> scrape(String symbol, int numDays) {
+		/*
+		 * This method scrapes historical stock price data from YahooFinance.
+		 * There are five data attributes read from the database:
+		 * the open, high, low, close and adjusted close prices.
+		 */
 		String url = BASE_URL;
 		
 		StockType stockType = getStockType(symbol);
@@ -56,32 +66,44 @@ public class Scraper {
 //			String name = (doc.select("div.D\\(iB\\) h1").text());
 			
 			int counter = 0;
-			
-			boolean firstRow = false;
 			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
 				
+				// If row contains no information, we skip over it.
 				if (row.select("td:nth-of-type(1)").text().equals("")) {
-					continue;
-				}
-				if (!firstRow) {
-					firstRow = true;
 					continue;
 				}
 				
 				String dateStr = row.select("td:nth-of-type(1)").text();
-				
 				String open = row.select("td:nth-of-type(2)").text();
+				
+				/* Some rows (typically current or previous date) may
+				 * contain no current stock data, and are represented
+				 * with a hyphen ("-") symbol.
+				 */
+				if (open.equals("-")) {
+					continue;
+				}
+				
 				String high = row.select("td:nth-of-type(3)").text();
 				String low = row.select("td:nth-of-type(4)").text();
 				String close = row.select("td:nth-of-type(5)").text();
 				String adjClose = row.select("td:nth-of-type(6)").text();
 				
+				/* Stock prices are represented with commas for readability,
+				 * which are removed below for numerical calculation purposes.
+				 */
 				open = open.replaceAll(",", "");
 				high = high.replaceAll(",", "");
 				low = low.replaceAll(",", "");
 				close = close.replaceAll(",", "");
 				adjClose = adjClose.replaceAll(",", "");
 				
+				/*
+				 * Date of stock price data on YahooFinance is always written
+				 * in the format dd MMM yyyy (e.g. 06 May 2023).
+				 * The two lines below make a date object from parsing
+				 * the date string in this format.
+				 */
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 				LocalDate date = LocalDate.parse(dateStr, formatter);
 				
