@@ -22,89 +22,33 @@ public class PredictionModel {
 	 * all previous (consecutive) data points over the input
 	 * number of days before the present date.
 	 */
-	public static String[] SMA(String symbol, int numDays) {
-		
-		TreeMap<LocalDate, String[]> data = Scraper.scrape(symbol, numDays);
-		Double openSum = 0.0;
-		Double highSum = 0.0;
-		Double lowSum = 0.0;
-		Double closeSum = 0.0;
-		Double adjCloseSum = 0.0;
-		
+	
+	public static double[] extractNumericalData(TreeMap<LocalDate, String[]> data, int index) {
+		double[] numData = new double[data.size()];
+		int i = 0;
 		for (String[] values : data.values()) {
-			openSum += Double.parseDouble(values[0]);
-			highSum += Double.parseDouble(values[0]);
-			lowSum += Double.parseDouble(values[0]);
-			closeSum += Double.parseDouble(values[0]);
-			adjCloseSum += Double.parseDouble(values[0]);
+			numData[i++] = Double.parseDouble(values[index]);
 		}
-		
-		openSum /= data.size();
-		highSum /= data.size();
-		lowSum /= data.size();
-		closeSum /= data.size();
-		adjCloseSum /= data.size();
-		
-		return new String[] {
-				symbol,
-				String.format("%.2f", openSum),
-				String.format("%.2f", highSum),
-				String.format("%.2f", lowSum),
-				String.format("%.2f", closeSum),
-				String.format("%.2f", adjCloseSum)
-		};
+		return numData;
 	}
 	
-	
-	/*
-	 * This method calculates the Exponential Moving Average (EMA)
-	 * of a set of stock price data attributes.
-	 * The EMA is calculated using a recursive formula
-	 */
-	public static String[] EMA(String symbol, int numDays) {
-		
-		TreeMap<LocalDate, String[]> data = Scraper.scrape(symbol, numDays);
-		Double[] EMAVals = new Double[5];
-		double k = 2.0 / (data.size() + 1); // weighted factor for EMA
-		boolean firstChecked = false; // set to true after first iteration
-		
-		for (String[] inputValues : data.values()) {
-			
-			/*
-			 * First iteration is used for initialisation;
-			 * This is essentially the base case of the
-			 * recursive formula computation
-			 */
-			if (!firstChecked) {
-				for (int i=0; i<5; i++) {
-					EMAVals[i] = Double.parseDouble(inputValues[i]);
-				}
-				firstChecked = true;
-				continue;
-			}
-			
-			/*
-			 * Below is the recursive formula for calculating the
-			 * current EMA value.
-			 */
-			for (int i=0; i<5; i++) {
-				double currPrice = Double.parseDouble(inputValues[i]);
-				EMAVals[i] = currPrice*k + EMAVals[i]*(1-k);
-			}
-			
+	public static double SMA(double[] data) {
+		double sum = 0.0;
+		for (double num : data) {
+			sum += num;
 		}
 		
-		/*
-		 * Need to convert all numeric values to strings
-		 * and keep two decimal places
-		 */
-		return new String[] {
-				symbol,
-				String.format("%.2f", EMAVals[0]),
-				String.format("%.2f", EMAVals[1]),
-				String.format("%.2f", EMAVals[2]),
-				String.format("%.2f", EMAVals[3]),
-				String.format("%.2f", EMAVals[4]),
-		};
+		return sum/data.length;
+	}
+	
+	public static double EMA(double[] data) {
+		double EMA = data[0];
+		double k = 2.0 / (data.length + 1);
+		
+		for (int i=1; i<data.length; i++) {
+			EMA = data[i]*k + EMA*(1-k);
+		}
+		
+		return EMA;
 	}
 }
