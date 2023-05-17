@@ -28,7 +28,7 @@ public class Scraper {
 	}
 	
 	public static StockType getStockType(String symbol) {
-		/*‚
+		/*
 		 * Special characters in input string for stock indicate whether
 		 * it is an index, currency or cryptocurrency.
 		 * For instance, all symbols for index stocks are preceeded by a
@@ -87,8 +87,7 @@ public class Scraper {
 					
 					/* Some rows (typically current or previous date) may
 					 * contain no stock data yet, and are represented
-					 * with a hyphen ("-") symbol.
-					 */
+					 * with a hyphen ("-") symbol. */
 					if (open.equals("-")) {
 						String[] ret = new String[6];
 						Arrays.fill(ret, "Data not available yet");
@@ -102,8 +101,7 @@ public class Scraper {
 					String adjClose = row.select("td:nth-of-type(6)").text();
 					
 					/* Stock prices are represented with commas for readability,
-					 * which are removed below for numerical calculation purposes.
-					 */
+					 * which are removed below for numerical calculation purposes. */
 					open = open.replaceAll(",", "");
 					high = high.replaceAll(",", "");
 					low = low.replaceAll(",", "");
@@ -171,8 +169,7 @@ public class Scraper {
 				
 				/* Some rows (typically current or previous date) may
 				 * contain no current stock data, and are represented
-				 * with a hyphen ("-") symbol.
-				 */
+				 * with a hyphen ("-") symbol. */
 				if (open.equals("-")) {
 					continue;
 				}
@@ -183,20 +180,17 @@ public class Scraper {
 				String adjClose = row.select("td:nth-of-type(6)").text();
 				
 				/* Stock prices are represented with commas for readability,
-				 * which are removed below for numerical calculation purposes.
-				 */
+				 * which are removed below for numerical calculation purposes. */
 				open = open.replaceAll(",", "");
 				high = high.replaceAll(",", "");
 				low = low.replaceAll(",", "");
 				close = close.replaceAll(",", "");
 				adjClose = adjClose.replaceAll(",", "");
 				
-				/*
-				 * Date of stock price data on YahooFinance is always written
+				/* Date of stock price data on YahooFinance is always written
 				 * in the format dd MMM yyyy (e.g. 06 May 2023).
 				 * The two lines below make a date object from parsing
-				 * the date string in this format.
-				 */
+				 * the date string in this format. */
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 				LocalDate date = LocalDate.parse(dateStr, formatter);
 				
