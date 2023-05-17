@@ -2,6 +2,7 @@ package com.zakander.stockpredictionservice.scraper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 import org.jsoup.Jsoup;
@@ -85,12 +86,14 @@ public class Scraper {
 					String open = row.select("td:nth-of-type(2)").text();
 					
 					/* Some rows (typically current or previous date) may
-					 * contain no current stock data, and are represented
+					 * contain no stock data yet, and are represented
 					 * with a hyphen ("-") symbol.
 					 */
 					if (open.equals("-")) {
-						// error; not good :(
-						break;
+						String[] ret = new String[6];
+						Arrays.fill(ret, "Data not available yet");
+						ret[0] = symbol;
+						return ret;
 					}
 					
 					String high = row.select("td:nth-of-type(3)").text();
