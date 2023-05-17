@@ -6,13 +6,13 @@ import java.util.TreeMap;
 import com.zakander.stockpredictionservice.scraper.Scraper;
 
 /*
- * The PredictionModel utility class is used to generate stock
- * price predictions using two universal models: Simple Moving
- * Average (SMA) and Exponential Moving Average (EMA).
- * This class utilises the scraping model (Scraper.scraper)
- * to extract the historical stock pricing data necessary to
- * generate a set of predictions for the open, high, low,
- * close and adjusted closing prices.
+ * The PredictionModel utility class is used to generate stock price
+ * predictions using two universal models: Simple Moving Average
+ * (SMA) and Exponential Moving Average (EMA).
+ * This class utilises the scraping model (Scraper.scraper) to extract
+ * the historical stock pricing data necessary to
+ * generate a set of predictions for the open, high, low, close and
+ * adjusted closing prices.
  */
 public class PredictionModel {	
 	/*

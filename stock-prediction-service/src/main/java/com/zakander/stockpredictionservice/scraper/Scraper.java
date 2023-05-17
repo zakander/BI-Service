@@ -8,6 +8,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+/*
+ * The scraper class utilises the jsoup library to scrape real-time historical
+ * stock price data from YahooFinance. Currently, this class is currently only
+ * able to scrape data from three types of stocks: indices, currencies and
+ * cryptocurrencies. The scraping function below is used by the PredictionModel
+ * class to calculate the SMA and EMA of each data attribute, namely the open,
+ * high, low, close and adjusted closing prices.
+ */
 public class Scraper {
 	private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
 	
@@ -19,9 +27,11 @@ public class Scraper {
 	}
 	
 	public static StockType getStockType(String symbol) {
-		/*
-		 * Special characters in input string for stock
-		 * indicate whether it is an index, currency or cryptocurrency
+		/*‚
+		 * Special characters in input string for stock indicate whether
+		 * it is an index, currency or cryptocurrency.
+		 * For instance, all symbols for index stocks are preceeded by a
+		 * caret (^), e.g. ^AXJO represents S&P/ASX 200 index.
 		 */
 		if (symbol.charAt(0) == '^') {
 			return StockType.INDEX;
@@ -38,10 +48,13 @@ public class Scraper {
 		 * There are five data attributes read from the database:
 		 * the open, high, low, close and adjusted close prices.
 		 */
+		
+		// First part of data source URL is the same for all stocks
 		String url = BASE_URL;
 		
 		StockType stockType = getStockType(symbol);
 		
+		// Each stock type has a unique link structure extending from base URL.
 		switch (stockType) {
 			case CRYPTO:
 				url = (url + "<F>/history?p=<F>").replaceAll("<F>", symbol);
