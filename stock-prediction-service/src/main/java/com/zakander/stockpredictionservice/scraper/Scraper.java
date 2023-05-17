@@ -42,7 +42,84 @@ public class Scraper {
 		return StockType.CRYPTO;
 	}
 	
-	public static TreeMap<LocalDate, String[]> scrape(String symbol, int numDays) {
+	public static boolean dateMatches(String dateFormat1, String dateFormat2) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+		LocalDate date1 = LocalDate.parse(dateFormat1, formatter);
+		LocalDate date2 = LocalDate.parse(dateFormat2);
+		return date1.equals(date2);
+	}
+	
+	public static String[] scrapeDate(String symbol, String dateStr) {
+		String url = BASE_URL;
+		
+		StockType stockType = getStockType(symbol);
+		
+		// Each stock type has a unique link structure extending from base URL.
+		switch (stockType) {
+			case CRYPTO:
+				url = (url + "<F>/history?p=<F>").replaceAll("<F>", symbol);
+				break;
+			case INDEX:
+				String newSymb = symbol.replaceAll("\\^", "");
+				url = (url + "%5E<F>/history?p=%5E<F>").replaceAll("<F>", newSymb);
+				break;
+			case CURRENCY:
+				String newSymb1 = symbol.replaceAll("=X", "");
+				url = (url + "<F>%3DX/history?p=<F>%3DX").replaceAll("<F>", newSymb1);
+				break;
+			default:
+				break;
+		}
+		
+		try {
+			final Document doc = (Document) Jsoup.connect(url).get();
+			
+			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
+				
+				// If row contains no information, we skip over it.
+				if (row.select("td:nth-of-type(1)").text().equals("")) {
+					continue;
+				}
+				
+				if (dateMatches(row.select("td:nth-of-type(1)").text(), dateStr)) {
+					String open = row.select("td:nth-of-type(2)").text();
+					
+					/* Some rows (typically current or previous date) may
+					 * contain no current stock data, and are represented
+					 * with a hyphen ("-") symbol.
+					 */
+					if (open.equals("-")) {
+						// error; not good :(
+						break;
+					}
+					
+					String high = row.select("td:nth-of-type(3)").text();
+					String low = row.select("td:nth-of-type(4)").text();
+					String close = row.select("td:nth-of-type(5)").text();
+					String adjClose = row.select("td:nth-of-type(6)").text();
+					
+					/* Stock prices are represented with commas for readability,
+					 * which are removed below for numerical calculation purposes.
+					 */
+					open = open.replaceAll(",", "");
+					high = high.replaceAll(",", "");
+					low = low.replaceAll(",", "");
+					close = close.replaceAll(",", "");
+					adjClose = adjClose.replaceAll(",", "");
+					
+					return new String[] {symbol, open, high, low, close, adjClose};
+				}
+			}
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static TreeMap<LocalDate, String[]> scrapeHistory(String symbol, int numDays) {
 		/*
 		 * This method scrapes historical stock price data from YahooFinance.
 		 * There are five data attributes read from the database:

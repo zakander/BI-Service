@@ -17,7 +17,7 @@ public class ScraperTests {
 	
 	@Test
 	void testIndex() {
-		TreeMap<LocalDate, String[]> data = Scraper.scrape("^NYA", 20);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("^NYA", 20);
 		
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
@@ -58,7 +58,7 @@ public class ScraperTests {
 	
 	@Test
 	void testCurrency() {
-		TreeMap<LocalDate, String[]> data = Scraper.scrape("AUDNZD=X", 20);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("AUDNZD=X", 20);
 		
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
@@ -99,7 +99,7 @@ public class ScraperTests {
 	
 	@Test
 	void testCrypto() {
-		TreeMap<LocalDate, String[]> data = Scraper.scrape("ADA-AUD", 20);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("ADA-AUD", 20);
 		
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");

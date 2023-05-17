@@ -60,7 +60,7 @@ public class StockModel {
 		
 		String[] predictions = new String[6];
 		predictions[0] = symbol;
-		TreeMap<LocalDate, String[]> data = Scraper.scrape(symbol, numDays);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory(symbol, numDays);
 		
 		for (int i=0; i<5; i++) {
 			
