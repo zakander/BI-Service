@@ -16,7 +16,43 @@ import com.zakander.stockpredictionservice.scraper.Scraper;
 public class ScraperTests {
 	
 	@Test
-	void testIndex() {
+	void testIndexDate() {
+		String symbol = "^KS11";
+		String dateStr = "2023-04-21";
+		String[] expected = new String[] {symbol, "2556.70", "2559.44",
+				"2532.32", "2544.40", "2544.40"};
+		String[] actual = Scraper.scrapeDate(symbol, dateStr);
+		
+		Assertions.assertArrayEquals(expected, actual,
+							"Values of date " + dateStr + " do not match");
+	}
+	
+	@Test
+	void testCurrencyDate() {
+		String symbol = "USDMYR=X";
+		String dateStr = "2023-05-10";
+		String[] expected = new String[] {symbol, "4.4470", "4.4560",
+				"4.4460", "4.4470", "4.4470"};
+		String[] actual = Scraper.scrapeDate(symbol, dateStr);
+		
+		Assertions.assertArrayEquals(expected, actual,
+							"Values of date " + dateStr + " do not match");
+	}
+	
+	@Test
+	void testCryptoDate() {
+		String symbol = "LINK-AUD";
+		String dateStr = "2023-05-12";
+		String[] expected = new String[] {symbol, "9.73", "9.73",
+				"9.36", "9.50", "9.50"};
+		String[] actual = Scraper.scrapeDate(symbol, dateStr);
+		
+		Assertions.assertArrayEquals(expected, actual,
+							"Values of date " + dateStr + " do not match");
+	}
+	
+	@Test
+	void testIndexHistory() {
 		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("^NYA", 20);
 		
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
@@ -57,7 +93,7 @@ public class ScraperTests {
 	}
 	
 	@Test
-	void testCurrency() {
+	void testCurrencyHistory() {
 		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("AUDNZD=X", 20);
 		
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
@@ -98,7 +134,7 @@ public class ScraperTests {
 	}
 	
 	@Test
-	void testCrypto() {
+	void testCryptoHistory() {
 		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("ADA-AUD", 20);
 		
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();

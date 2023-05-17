@@ -1,6 +1,5 @@
 package com.zakander.stockpredictionservice.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,17 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zakander.stockpredictionservice.beans.StockModel;
 import com.zakander.stockpredictionservice.beans.StockPredictionsBean;
 import com.zakander.stockpredictionservice.scraper.Scraper;
-import com.zakander.stockpredictionservice.service.StockModelService;
 
 @RestController
 public class StockModelController {
-	
-	@Autowired
-	private final StockModelService service;
-	
-	public StockModelController(StockModelService service) {
-		this.service = service;
-	}
 
 	@GetMapping("/stock-prediction/{symbol}/{numDays}/{modelType}")
 	public StockPredictionsBean retrievePredictions(

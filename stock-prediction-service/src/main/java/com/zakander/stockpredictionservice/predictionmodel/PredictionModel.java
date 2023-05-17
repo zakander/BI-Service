@@ -3,8 +3,6 @@ package com.zakander.stockpredictionservice.predictionmodel;
 import java.time.LocalDate;
 import java.util.TreeMap;
 
-import com.zakander.stockpredictionservice.scraper.Scraper;
-
 /*
  * The PredictionModel utility class is used to generate stock price
  * predictions using two universal models: Simple Moving Average
