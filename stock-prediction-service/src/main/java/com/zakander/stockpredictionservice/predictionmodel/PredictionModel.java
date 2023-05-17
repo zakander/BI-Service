@@ -13,13 +13,6 @@ import java.util.TreeMap;
  * adjusted closing prices.
  */
 public class PredictionModel {	
-	/*
-	 * This method calculates the Simple Moving Average (SMA)
-	 * of a set of stock price data attributes.
-	 * The SMA is calculated by simple taking the average of
-	 * all previous (consecutive) data points over the input
-	 * number of days before the present date.
-	 */
 	
 	public static double[] extractNumericalData(TreeMap<LocalDate, String[]> data, int index) {
 		double[] numData = new double[data.size()];
@@ -30,6 +23,11 @@ public class PredictionModel {
 		return numData;
 	}
 	
+	/* This method calculates the Simple Moving Average (SMA)
+	 * of a set of stock price data attributes.
+	 * The SMA is calculated by simple taking the average of
+	 * all previous (consecutive) data points over the input
+	 * number of days before the present date. */
 	public static double SMA(double[] data) {
 		double sum = 0.0;
 		for (double num : data) {
@@ -39,11 +37,15 @@ public class PredictionModel {
 		return sum/data.length;
 	}
 	
+	/* This method calculates the Exponential Moving Average (EMA)
+	 * of a set of stock price data attributes.
+	 * The EMA is calculated using a recursive formula */
 	public static double EMA(double[] data) {
 		double EMA = data[0];
 		double k = 2.0 / (data.length + 1);
 		
 		for (int i=1; i<data.length; i++) {
+			// Resursive EMA formula
 			EMA = data[i]*k + EMA*(1-k);
 		}
 		
