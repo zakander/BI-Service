@@ -3,6 +3,9 @@ package com.zakander.stockpredictionservice.predictionmodel;
 import java.time.LocalDate;
 import java.util.TreeMap;
 
+import com.zakander.stockpredictionservice.beans.StockPredictionsData.ModelType;
+import com.zakander.stockpredictionservice.scraper.Scraper;
+
 /*
  * The PredictionModel utility class is used to generate stock price
  * predictions using two universal models: Simple Moving Average
@@ -50,5 +53,25 @@ public class PredictionModel {
 		}
 		
 		return EMA;
+	}
+	
+	public static String[] getPredictions(String symbol, int numDays, ModelType modelType) {
+		
+		String[] predictions = new String[5];
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory(symbol, numDays);
+		
+		for (int i=0; i<5; i++) {
+			
+			double[] numData = extractNumericalData(data, i);
+			
+			if (modelType.equals(ModelType.SMA)) {
+				predictions[i] = String.format("%.2f", SMA(numData));
+			}
+			else {
+				predictions[i] = String.format("%.2f", EMA(numData));
+			}
+		}
+		
+		return predictions;
 	}
 }

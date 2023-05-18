@@ -24,7 +24,7 @@ public class Scraper {
 		// Used to format the link for online historical data
 		CRYPTO,
 		INDEX,
-		CURRENCY;
+		CURRENCY
 	}
 	
 	public static StockType getStockType(String symbol) {
