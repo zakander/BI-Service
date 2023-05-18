@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.zakander.stockpredictionservice.beans.DateDataPost;
 import com.zakander.stockpredictionservice.beans.PredictionsPost;
 import com.zakander.stockpredictionservice.beans.StockDateData;
 import com.zakander.stockpredictionservice.beans.StockPredictionsData;
@@ -25,6 +26,7 @@ import com.zakander.stockpredictionservice.jpa.PostRepository;
 import com.zakander.stockpredictionservice.jpa.StockDateDataRepository;
 import com.zakander.stockpredictionservice.jpa.StockPredictionsDataRepository;
 import com.zakander.stockpredictionservice.predictionmodel.PredictionModel;
+import com.zakander.stockpredictionservice.scraper.Scraper;
 
 import jakarta.validation.Valid;
 
@@ -33,7 +35,6 @@ public class StockModelResource {
 	
 	private StockDateDataRepository dateRepository;
 	private StockPredictionsDataRepository predictionsRepository;
-	private PostRepository postRepository;
 	
 	public StockModelResource(
 			StockDateDataRepository dateRepository,
@@ -41,59 +42,91 @@ public class StockModelResource {
 			PostRepository postRepository) {
 		this.dateRepository = dateRepository;
 		this.predictionsRepository = predictionsRepository;
-		this.postRepository = postRepository;
 	}
 
-
-	@GetMapping("/stock-prediction/all-posts/date")
+	@GetMapping("/stock-date-data/all-posts")
 	public List<StockDateData> retrieveAllDateData() {
 		return dateRepository.findAll();
 	}
 	
-	@GetMapping("/stock-prediction/all-posts/models")
+	@GetMapping("/stock-prediction/all-posts/")
 	public List<StockPredictionsData> retrieveAllPredictions() {
 		return predictionsRepository.findAll();
 	}
 	
-	@GetMapping("/stock-date-data/data/{symbol}/{date}")
+	@GetMapping("/stock-date-data/data/posts/{symbol}/{date}")
 	public EntityModel<StockDateData> retrieveDateData(
-											@PathVariable String symbol,
-											@PathVariable LocalDate date) {
-		Optional<StockDateData> data = Optional.of(dateRepository.findBySymbolAndDate(symbol, date));
+			@PathVariable String symbol,
+			@PathVariable LocalDate date) {
+		
+		Optional<StockDateData> data = Optional.of(
+							dateRepository.findBySymbolAndDate(symbol, date));
 		
 		EntityModel<StockDateData> entityModel = EntityModel.of(data.get());
 		
-		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllPredictions());
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass())
+										.retrieveAllPredictions());
 		entityModel.add(link.withRel("all-stockpredictions"));
 		
 		return entityModel;
 	}
 	
-	@GetMapping("/stock-prediction/data/{symbol}/{numDays}")
+	@GetMapping("/stock-prediction/posts/{symbol}/{numDays}")
 	public EntityModel<StockPredictionsData> retrievePredictionsData(
-											@PathVariable String symbol,
-											@PathVariable int numDays) {
-		Optional<StockPredictionsData> data = Optional.of(predictionsRepository.findBySymbolAndNumDays(symbol, numDays));
+			@PathVariable String symbol,
+			@PathVariable int numDays) {
+		
+		Optional<StockPredictionsData> data = Optional.of(
+				predictionsRepository.findBySymbolAndNumDays(symbol, numDays));
 		
 		EntityModel<StockPredictionsData> entityModel = EntityModel.of(data.get());
 		
-		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllPredictions());
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass())
+										.retrieveAllPredictions());
 		entityModel.add(link.withRel("all-stockpredictions"));
 		
 		return entityModel;
+	}
+	
+	@PostMapping("stock-date-data/posts")
+	public ResponseEntity<Object> createDateData(@Valid @RequestBody DateDataPost post) {
+		
+		String[] values = Scraper.scrapeDate(
+									post.getSymbol(),
+									post.getDateStr());
+		assert values != null;
+		
+		StockDateData data = new StockDateData(
+									post.getId(),
+									LocalDate.parse(post.getDateStr()),
+									post.getSymbol(),
+									values);
+		
+		dateRepository.saveAndFlush(data);
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+						.path("/{id}")
+						.buildAndExpand(data.getId())
+						.toUri();
+		
+		return ResponseEntity.created(location).build();
 	}
 
 	@PostMapping("stock-prediction/posts")
 	public ResponseEntity<Object> createPredictions(@Valid @RequestBody PredictionsPost post) {
 		
-//		System.out.println("\n----\n");
-//		System.out.println(post.getSymbol());
-//		System.out.println(post.getNumDays());
-//		System.out.println(post.getModelType());
-		System.out.println("\n----\n");
-		String[] values = PredictionModel.getPredictions(post.getSymbol(), post.getNumDays(), post.getModelType());
-		StockPredictionsData data = new StockPredictionsData(post.getId(), post.getModelType(), post.getSymbol(), post.getNumDays(), values);
-//		EntityModel<StockPredictionsData> dataEntity = EntityModel.of(data);
+		String[] values = PredictionModel.getPredictions(
+									post.getSymbol(),
+									post.getNumDays(),
+									post.getModelType());
+		
+		StockPredictionsData data = new StockPredictionsData(
+									post.getId(),
+									post.getModelType(),
+									post.getSymbol(),
+									post.getNumDays(),
+									values);
+		
 		predictionsRepository.saveAndFlush(data);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -103,13 +136,4 @@ public class StockModelResource {
 		
 		return ResponseEntity.created(location).build();
 	}
-	
-//	@GetMapping("/date-data/{symbol}/{dateStr}")
-//	public StockDateData retrieveData(
-//			@PathVariable String symbol,
-//			@PathVariable String dateStr) {
-//		
-//		String[] data = Scraper.scrapeDate(symbol, dateStr);
-//		return new StockDateData(data);
-//	}
 }

@@ -51,6 +51,7 @@ public class Scraper {
 	}
 	
 	public static String[] scrapeDate(String symbol, String dateStr) {
+		// dateStr is in format yyyy-mm-dd
 		String url = BASE_URL;
 		
 		StockType stockType = getStockType(symbol);
@@ -89,7 +90,7 @@ public class Scraper {
 					 * contain no stock data yet, and are represented
 					 * with a hyphen ("-") symbol. */
 					if (open.equals("-")) {
-						String[] ret = new String[6];
+						String[] ret = new String[5];
 						Arrays.fill(ret, "Data not available yet");
 						ret[0] = symbol;
 						return ret;
@@ -108,7 +109,7 @@ public class Scraper {
 					close = close.replaceAll(",", "");
 					adjClose = adjClose.replaceAll(",", "");
 					
-					return new String[] {symbol, open, high, low, close, adjClose};
+					return new String[] {open, high, low, close, adjClose};
 				}
 			}
 		}

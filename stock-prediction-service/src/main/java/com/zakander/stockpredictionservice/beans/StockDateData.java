@@ -30,6 +30,8 @@ public class StockDateData {
 		this.close = values[3];
 		this.adjClose = values[4];
 	}
+	
+	public StockDateData() {}
 
 	public Integer getId() {
 		return id;
