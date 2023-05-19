@@ -4,13 +4,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,18 +47,18 @@ public class StockModelResource {
 		return dateRepository.findAll();
 	}
 	
-	@GetMapping("/stock-prediction/all-posts/")
+	@GetMapping("/stock-prediction/all-posts")
 	public List<StockPredictionsData> retrieveAllPredictions() {
 		return predictionsRepository.findAll();
 	}
 	
-	@GetMapping("/stock-date-data/data/posts/{symbol}/{date}")
+	@GetMapping("/stock-date-data/posts/{symbol}/{dateStr}")
 	public EntityModel<StockDateData> retrieveDateData(
 			@PathVariable String symbol,
-			@PathVariable LocalDate date) {
+			@PathVariable String dateStr) {
 		
 		Optional<StockDateData> data = Optional.of(
-							dateRepository.findBySymbolAndDate(symbol, date));
+							dateRepository.findBySymbolAndDateStr(symbol, dateStr));
 		
 		EntityModel<StockDateData> entityModel = EntityModel.of(data.get());
 		
@@ -86,7 +86,24 @@ public class StockModelResource {
 		return entityModel;
 	}
 	
-	@PostMapping("stock-date-data/posts")
+	@DeleteMapping("/stock-date-data/posts/{symbol}/{dateStr}")
+	public void deleteDateData(
+			@PathVariable String symbol,
+			@PathVariable String dateStr) {
+		
+		StockDateData data = dateRepository.findBySymbolAndDateStr(symbol, dateStr);
+		dateRepository.delete(data);
+	}
+	
+	@DeleteMapping("/stock-prediction/posts/{symbol}/{numDays}")
+	public void deletePredictions(
+			@PathVariable String symbol,
+			@PathVariable int numDays) {
+		
+		predictionsRepository.deleteBySymbolAndNumDays(symbol, numDays);
+	}
+	
+	@PostMapping("/stock-date-data/posts")
 	public ResponseEntity<Object> createDateData(@Valid @RequestBody DateDataPost post) {
 		
 		String[] values = Scraper.scrapeDate(
@@ -96,7 +113,7 @@ public class StockModelResource {
 		
 		StockDateData data = new StockDateData(
 									post.getId(),
-									LocalDate.parse(post.getDateStr()),
+									post.getDateStr(),
 									post.getSymbol(),
 									values);
 		
@@ -110,7 +127,7 @@ public class StockModelResource {
 		return ResponseEntity.created(location).build();
 	}
 
-	@PostMapping("stock-prediction/posts")
+	@PostMapping("/stock-prediction/posts")
 	public ResponseEntity<Object> createPredictions(@Valid @RequestBody PredictionsPost post) {
 		
 		String[] values = PredictionModel.getPredictions(

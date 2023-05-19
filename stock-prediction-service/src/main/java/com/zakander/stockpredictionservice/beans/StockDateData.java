@@ -1,7 +1,5 @@
 package com.zakander.stockpredictionservice.beans;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -12,7 +10,7 @@ public class StockDateData {
 	@GeneratedValue
 	private Integer id;
 	
-	private LocalDate date;
+	private String dateStr;
 	private String symbol;
 	private String open;
 	private String high;
@@ -20,9 +18,9 @@ public class StockDateData {
 	private String close;
 	private String adjClose;
 	
-	public StockDateData(Integer id, LocalDate date, String symbol, String[] values) {
+	public StockDateData(Integer id, String dateStr, String symbol, String[] values) {
 		this.id = id;
-		this.date = date;
+		this.dateStr = dateStr;
 		this.symbol = symbol;
 		this.open = values[0];
 		this.high = values[1];
@@ -41,12 +39,12 @@ public class StockDateData {
 		this.id = id;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public String getDateStr() {
+		return dateStr;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
 	}
 
 	public String getSymbol() {
