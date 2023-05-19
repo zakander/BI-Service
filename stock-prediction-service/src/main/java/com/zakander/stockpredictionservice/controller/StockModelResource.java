@@ -22,7 +22,6 @@ import com.zakander.stockpredictionservice.beans.DateDataPost;
 import com.zakander.stockpredictionservice.beans.PredictionsPost;
 import com.zakander.stockpredictionservice.beans.StockDateData;
 import com.zakander.stockpredictionservice.beans.StockPredictionsData;
-import com.zakander.stockpredictionservice.jpa.PostRepository;
 import com.zakander.stockpredictionservice.jpa.StockDateDataRepository;
 import com.zakander.stockpredictionservice.jpa.StockPredictionsDataRepository;
 import com.zakander.stockpredictionservice.predictionmodel.PredictionModel;
@@ -38,8 +37,7 @@ public class StockModelResource {
 	
 	public StockModelResource(
 			StockDateDataRepository dateRepository,
-			StockPredictionsDataRepository predictionsRepository,
-			PostRepository postRepository) {
+			StockPredictionsDataRepository predictionsRepository) {
 		this.dateRepository = dateRepository;
 		this.predictionsRepository = predictionsRepository;
 	}

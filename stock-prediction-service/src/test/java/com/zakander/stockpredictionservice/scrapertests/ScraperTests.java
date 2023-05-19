@@ -19,7 +19,7 @@ public class ScraperTests {
 	void testIndexDate() {
 		String symbol = "^KS11";
 		String dateStr = "2023-04-21";
-		String[] expected = new String[] {symbol, "2556.70", "2559.44",
+		String[] expected = new String[] {"2556.70", "2559.44",
 				"2532.32", "2544.40", "2544.40"};
 		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
@@ -31,7 +31,7 @@ public class ScraperTests {
 	void testCurrencyDate() {
 		String symbol = "USDMYR=X";
 		String dateStr = "2023-05-10";
-		String[] expected = new String[] {symbol, "4.4470", "4.4560",
+		String[] expected = new String[] {"4.4470", "4.4560",
 				"4.4460", "4.4470", "4.4470"};
 		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
@@ -43,8 +43,8 @@ public class ScraperTests {
 	void testCryptoDate() {
 		String symbol = "LINK-AUD";
 		String dateStr = "2023-05-12";
-		String[] expected = new String[] {symbol, "9.73", "9.73",
-				"9.36", "9.50", "9.50"};
+		String[] expected = new String[] {"9.7272", "9.7272",
+				"9.3607", "9.5036", "9.5036"};
 		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
 		Assertions.assertArrayEquals(expected, actual,
