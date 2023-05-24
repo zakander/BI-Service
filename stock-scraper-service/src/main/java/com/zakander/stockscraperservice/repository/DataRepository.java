@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.zakander.stockscraperservice.scraper.entity.StockDataRow;
+import com.zakander.stockscraperservice.entity.StockDataRow;
 
 @Repository
 public class DataRepository {

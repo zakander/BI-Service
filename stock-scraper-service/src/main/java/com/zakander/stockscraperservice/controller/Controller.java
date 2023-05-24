@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zakander.stockscraperservice.entity.StockDataRow;
 import com.zakander.stockscraperservice.repository.DataRepository;
-import com.zakander.stockscraperservice.scraper.entity.StockDataRow;
 
 @RestController
 public class Controller {

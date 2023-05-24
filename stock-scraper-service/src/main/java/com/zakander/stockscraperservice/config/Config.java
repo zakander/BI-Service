@@ -57,29 +57,4 @@ public class Config {
 				)
 				.build();
 	}
-	
-//	@Bean
-//	public AWSCredentials amazonAWSCredentials() {
-//		return new BasicAWSCredentials(
-//				"AKIAVP234CBC47SNRSVP", "53i6oU6zreKNM7MXeAsAri78QlJyzxswOrBZh8Xk");
-//	}
-//	
-//	@Bean
-//	public DynamoDbClient getDynamoDbClient() {
-//		AwsCredentialsProvider credentialsProvider = DefaultCredentialsProvider
-//				.builder()
-//				.profileName("stockdbaccess")
-//				.build();
-//		
-//		return DynamoDbClient.builder()
-//				.region(Region.US_EAST_1)
-//				.credentialsProvider(credentialsProvider).build();
-//	}
-//	
-//	@Bean
-//	public DynamoDbEnhancedClient getDynamoDbEnhancedClient() {
-//		return DynamoDbEnhancedClient.builder()
-//				.dynamoDbClient(getDynamoDbClient())
-//				.build();
-//	}
 }
