@@ -1,6 +1,7 @@
 package com.zakander.stockscraperservice.config;
 
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,12 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 @Configuration
 @EnableDynamoDBRepositories
 public class Config {
+	@Value("{amazom.awsaccesskey}")
+	private String awsAccessKey;
+	
+	@Value("{amazom.awssecretaccesskey}")
+	private String awsSecretAccessKey;
+	
 	@Bean
 	public DynamoDBMapper dynamoDBMapper() {
 		return new DynamoDBMapper(amazonDynamoDB());
@@ -32,8 +39,8 @@ public class Config {
 				.withCredentials(
 						new AWSStaticCredentialsProvider(
 								new BasicAWSCredentials(
-										"AKIAVP234CBC47SNRSVP",
-										"53i6oU6zreKNM7MXeAsAri78QlJyzxswOrBZh8Xk"
+										awsAccessKey,
+										awsSecretAccessKey
 								)
 						)
 				)
