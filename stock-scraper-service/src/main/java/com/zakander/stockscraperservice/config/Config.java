@@ -1,7 +1,10 @@
 package com.zakander.stockscraperservice.config;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,13 +17,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 @Configuration
 @EnableDynamoDBRepositories
-public class Config {
-	@Value("{amazom.awsaccesskey}")
-	private String awsAccessKey;
-	
-	@Value("{amazom.awssecretaccesskey}")
-	private String awsSecretAccessKey;
-	
+public class Config {	
 	@Bean
 	public DynamoDBMapper dynamoDBMapper() {
 		return new DynamoDBMapper(amazonDynamoDB());
@@ -28,6 +25,20 @@ public class Config {
 	
 	@Bean
 	public AmazonDynamoDB amazonDynamoDB() {
+		String accessKey = "AKIAVP234CBC47SNRSVP";
+		String secretAccessKey = "<>";
+		
+		try {
+			File info = new File("info/info.txt");
+			Scanner sc = new Scanner(info);
+			accessKey = sc.nextLine();
+			secretAccessKey = sc.nextLine();
+			sc.close();
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("File not found");
+			e.printStackTrace();
+		}
 		return AmazonDynamoDBClientBuilder
 				.standard()
 				.withEndpointConfiguration(
@@ -39,8 +50,8 @@ public class Config {
 				.withCredentials(
 						new AWSStaticCredentialsProvider(
 								new BasicAWSCredentials(
-										awsAccessKey,
-										awsSecretAccessKey
+										accessKey,
+										secretAccessKey
 								)
 						)
 				)
