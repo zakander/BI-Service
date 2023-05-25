@@ -26,24 +26,12 @@ public class Config {
 	@Bean
 	public AmazonDynamoDB amazonDynamoDB() {
 		String accessKey = "AKIAVP234CBC47SNRSVP";
-		String secretAccessKey = "<>";
-		
-		try {
-			File info = new File("info/info.txt");
-			Scanner sc = new Scanner(info);
-			accessKey = sc.nextLine();
-			secretAccessKey = sc.nextLine();
-			sc.close();
-		}
-		catch (FileNotFoundException e) {
-			System.out.println("File not found");
-			e.printStackTrace();
-		}
+		String secretAccessKey = "53i6oU6zreKNM7MXeAsAri78QlJyzxswOrBZh8Xk";
 		return AmazonDynamoDBClientBuilder
 				.standard()
 				.withEndpointConfiguration(
 						new EndpointConfiguration(
-								"dynamodb.us-east-1.amazonaws.com",
+								"http://localhost:8001/",
 								"us-east-1"
 						)
 				)
