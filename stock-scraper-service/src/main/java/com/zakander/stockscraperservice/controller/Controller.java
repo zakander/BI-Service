@@ -7,25 +7,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zakander.stockscraperservice.entity.StockDataRow;
-import com.zakander.stockscraperservice.repository.DataRepository;
+import com.zakander.stockscraperservice.entities.Post;
+import com.zakander.stockscraperservice.entities.StockDataRow;
+import com.zakander.stockscraperservice.repository.IDataRepository;
+import com.zakander.stockscraperservice.scraper.Scraper;
 
 @RestController
 public class Controller {
 	@Autowired
-	private DataRepository repository;
+	private IDataRepository repository;
 	
 	@GetMapping("/row/{stockSymbol}/{dateStr}")
 	public StockDataRow geteStockDataRowByKeys(
 			@PathVariable("stockSymbol") String symbol,
 			@PathVariable("dateStr") String dateStr) {
-		StockDataRow row = repository.getRowByKeys(symbol, dateStr);
+		StockDataRow row = repository.findByStockSymbolAndDateStr(symbol, dateStr);
 		assert row != null;
 		return row;
 	}
 	
 	@PostMapping("/row")
-	public void saveStockDataRow(@RequestBody StockDataRow row) {
+	public void saveStockDataRow(@RequestBody Post post) {
+		String[] values = Scraper.scrapeDate(post.getStockSymbol(), post.getDateStr());
+		StockDataRow row = new StockDataRow(post.getStockSymbol(), post.getDateStr(),
+				values[0], values[1], values[2], values[3], values[4]);
 		repository.save(row);
 	}
 }

@@ -1,20 +1,47 @@
-package com.zakander.stockscraperservice.entity;
+package com.zakander.stockscraperservice.entities;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 @DynamoDBTable(tableName="stock_data")
 public class StockDataRow {
+	@Id
+	@GeneratedValue
+	private Integer id;
+	
 	private String stockSymbol;
 	private String dateStr;
 	
 	private String open;
+	
 	private String high;
+	
 	private String low;
+	
 	private String close;
+	
 	private String adjClose;
 	
+	public StockDataRow() {}
+
+	public StockDataRow(String stockSymbol, String dateStr, String open, String high, String low, String close,
+			String adjClose) {
+		this.stockSymbol = stockSymbol;
+		this.dateStr = dateStr;
+		this.open = open;
+		this.high = high;
+		this.low = low;
+		this.close = close;
+		this.adjClose = adjClose;
+	}
+
 	@DynamoDBHashKey(attributeName="stock_symbol")
 	public String getStockSymbol() {
 		return stockSymbol;
@@ -33,6 +60,7 @@ public class StockDataRow {
 		this.dateStr = dateStr;
 	}
 	
+	@DynamoDBAttribute
 	public String getOpen() {
 		return open;
 	}
@@ -41,6 +69,7 @@ public class StockDataRow {
 		this.open = open;
 	}
 	
+	@DynamoDBAttribute
 	public String getHigh() {
 		return high;
 	}
@@ -49,6 +78,7 @@ public class StockDataRow {
 		this.high = high;
 	}
 	
+	@DynamoDBAttribute
 	public String getLow() {
 		return low;
 	}
@@ -57,6 +87,7 @@ public class StockDataRow {
 		this.low = low;
 	}
 	
+	@DynamoDBAttribute
 	public String getClose() {
 		return close;
 	}
@@ -65,6 +96,7 @@ public class StockDataRow {
 		this.close = close;
 	}
 	
+	@DynamoDBAttribute
 	public String getAdjClose() {
 		return adjClose;
 	}

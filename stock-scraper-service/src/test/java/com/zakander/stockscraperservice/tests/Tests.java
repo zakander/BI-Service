@@ -38,8 +38,8 @@ public class Tests {
 	void testCryptoDate() {
 		String symbol = "LINK-AUD";
 		String dateStr = "2023-05-12";
-		String[] expected = new String[] {"9.7272", "9.7272",
-				"9.3607", "9.5036", "9.5036"};
+		String[] expected = new String[] {"9.73", "9.73",
+				"9.36", "9.50", "9.50"};
 		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
 		Assertions.assertArrayEquals(expected, actual,

@@ -119,6 +119,13 @@
 			<version>1.12.472</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-core -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-core</artifactId>
+			<version>1.12.472</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb-enhanced -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
@@ -126,11 +133,10 @@
 			<version>2.20.69</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/com.github.derjust/spring-data-dynamodb -->
-		<dependency>
-			<groupId>com.github.derjust</groupId>
+		<!-- https://mvnrepository.com/artifact/io.github.boostchicken/spring-data-dynamodb --><dependency>
+			<groupId>io.github.boostchicken</groupId>
 			<artifactId>spring-data-dynamodb</artifactId>
-			<version>5.0.4</version>
+			<version>5.2.5</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
@@ -140,20 +146,35 @@
 			<version>3.11.0</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodbmapper-v1 -->
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>dynamodbmapper-v1</artifactId>
-			<version>2.0.0-preview-13</version>
-		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.14</version>
 		</dependency>
-
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-server -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-server</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/DynamoDBLocal -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>DynamoDBLocal</artifactId>
+			<version>1.21.1</version>
+			<scope>test</scope>
+		</dependency>
+	
 	</dependencies>
 
 	<build>
