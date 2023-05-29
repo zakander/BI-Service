@@ -35,8 +35,8 @@ public class Config {
 //				.build();
 //	}
 	
-	private String accessKey = "AKIAVP234CBC6Q2BVW6E";
-	private String secretKey = "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";
+	private String accessKey = "<>";
+	private String secretKey = "<>";
 	private String endpoint = "dynamodb.us-east-1.amazonaws.com";
 	private String region = "us-east-1";
 	
