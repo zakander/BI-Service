@@ -36,7 +36,7 @@ public class StockDataRow {
 		this.adjClose = adjClose;
 	}
 
-	@DynamoDBHashKey(attributeName="stock_symbol")
+	@DynamoDBHashKey(attributeName = "stock_symbol")
 	public String getStockSymbol() {
 		return stockSymbol;
 	}
@@ -45,7 +45,7 @@ public class StockDataRow {
 		this.stockSymbol = stockSymbol;
 	}
 	
-	@DynamoDBRangeKey(attributeName="date_str")
+	@DynamoDBRangeKey(attributeName = "date_str")
 	public String getDateStr() {
 		return dateStr;
 	}

@@ -1,35 +1,39 @@
-package com.zakander.stockpredictionservice.beans;
+package com.zakander.stockpredictionservice.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class StockDateData {
+public class StockPredictionsData {
 	@Id
 	@GeneratedValue
 	private Integer id;
 	
-	private String dateStr;
+	private ModelType modelType;
 	private String symbol;
+	private int numDays;
 	private String open;
 	private String high;
 	private String low;
 	private String close;
 	private String adjClose;
 	
-	public StockDateData(Integer id, String dateStr, String symbol, String[] values) {
+	public enum ModelType {SMA, EMA}
+	
+	public StockPredictionsData(Integer id, ModelType modelType, String symbol, int numDays, String[] values) {
 		this.id = id;
-		this.dateStr = dateStr;
+		this.modelType = modelType;
 		this.symbol = symbol;
+		this.numDays = numDays;
 		this.open = values[0];
 		this.high = values[1];
 		this.low = values[2];;
 		this.close = values[3];
 		this.adjClose = values[4];
 	}
-	
-	public StockDateData() {}
+
+	public StockPredictionsData() {}
 
 	public Integer getId() {
 		return id;
@@ -39,12 +43,12 @@ public class StockDateData {
 		this.id = id;
 	}
 
-	public String getDateStr() {
-		return dateStr;
+	public ModelType getModelType() {
+		return modelType;
 	}
 
-	public void setDateStr(String dateStr) {
-		this.dateStr = dateStr;
+	public void setModelType(ModelType modelType) {
+		this.modelType = modelType;
 	}
 
 	public String getSymbol() {
@@ -53,6 +57,14 @@ public class StockDateData {
 
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
+	}
+
+	public int getNumDays() {
+		return numDays;
+	}
+
+	public void setNumDays(int numDays) {
+		this.numDays = numDays;
 	}
 
 	public String getOpen() {

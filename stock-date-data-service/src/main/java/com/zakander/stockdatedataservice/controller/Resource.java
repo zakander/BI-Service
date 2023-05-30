@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.zakander.stockdatedataservice.beans.Post;
 import com.zakander.stockdatedataservice.beans.StockDateData;
-import com.zakander.stockdatedataservice.jpa.Repository;
+import com.zakander.stockdatedataservice.repository.Repository;
 import com.zakander.stockscraperservice.scraper.Scraper;
 
 import jakarta.validation.Valid;

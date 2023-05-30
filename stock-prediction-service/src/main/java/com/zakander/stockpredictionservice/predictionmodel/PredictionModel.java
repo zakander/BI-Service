@@ -3,7 +3,7 @@ package com.zakander.stockpredictionservice.predictionmodel;
 import java.time.LocalDate;
 import java.util.TreeMap;
 
-import com.zakander.stockpredictionservice.beans.StockPredictionsData.ModelType;
+import com.zakander.stockpredictionservice.entity.StockPredictionsData.ModelType;
 import com.zakander.stockpredictionservice.scraper.Scraper;
 
 /*

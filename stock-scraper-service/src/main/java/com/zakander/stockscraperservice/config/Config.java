@@ -16,9 +16,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 @Configuration
 @EnableDynamoDBRepositories
 public class Config {
-	@Value("${amazon.dynamodb.endpoint}")
-	private String endpoint;
-	
 	@Value("${amazon.aws.accesskey}")
 	private String accessKey;
 	
@@ -35,7 +32,6 @@ public class Config {
 	@Bean
 	public AmazonDynamoDB amazonDynamoDB() {
 		AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-//		EndpointConfiguration endpointConfig = new EndpointConfiguration (endpoint, region);
 		AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder
 				.standard()
 				.withRegion(Regions.US_EAST_1)

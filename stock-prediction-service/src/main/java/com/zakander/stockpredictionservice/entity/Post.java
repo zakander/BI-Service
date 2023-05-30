@@ -1,13 +1,13 @@
-package com.zakander.stockpredictionservice.beans;
+package com.zakander.stockpredictionservice.entity;
 
-import com.zakander.stockpredictionservice.beans.StockPredictionsData.ModelType;
+import com.zakander.stockpredictionservice.entity.StockPredictionsData.ModelType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class PredictionsPost {
+public class Post {
 	
 	@Id
 	@GeneratedValue

@@ -1,6 +1,7 @@
 package com.zakander.stockscraperservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class Controller {
 	@Autowired
 	private DataRepository repository;
 	
-	@GetMapping("/row/{stockSymbol}/{dateStr}")
+	@GetMapping("/get/{stockSymbol}/{dateStr}")
 	public StockDataRow geteStockDataRowByKeys(
 			@PathVariable("stockSymbol") String symbol,
 			@PathVariable("dateStr") String dateStr) {
@@ -26,7 +27,16 @@ public class Controller {
 		return row;
 	}
 	
-	@PostMapping("/row")
+	@DeleteMapping("/delete/{stockSymbol}/{dateStr}")
+	public void deleteDateData(
+			@PathVariable("stockSymbol") String symbol,
+			@PathVariable("dateStr") String dateStr) {
+		
+		StockDataRow row = repository.findBySymbolAndDate(symbol, dateStr);
+		repository.delete(row);
+	}
+	
+	@PostMapping("/post")
 	public void saveStockDataRow(@RequestBody Post post) {
 		String[] values = Scraper.scrapeDate(post.getStockSymbol(), post.getDateStr());
 		StockDataRow row = new StockDataRow(post.getStockSymbol(), post.getDateStr(),
