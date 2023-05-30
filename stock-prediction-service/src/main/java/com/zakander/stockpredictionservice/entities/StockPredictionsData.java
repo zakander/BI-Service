@@ -1,4 +1,4 @@
-package com.zakander.stockpredictionservice.entity;
+package com.zakander.stockpredictionservice.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

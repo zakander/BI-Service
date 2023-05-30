@@ -1,18 +1,13 @@
 package com.zakander.stockscraperservice.scraper;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.TreeMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import com.zakander.stockscraperservice.entities.StockDataRow;
 
 /*
  * The scraper class utilises the jsoup library to scrape real-time historical
@@ -23,8 +18,8 @@ import com.zakander.stockscraperservice.entities.StockDataRow;
  * high, low, close and adjusted closing prices.
  */
 public class Scraper {
-	private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
-	private static final int NUM_STOCKS = 10;
+private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
+	
 	public enum StockType {
 		// Used to format the link for online historical data
 		CRYPTO,
@@ -55,27 +50,7 @@ public class Scraper {
 		return date1.equals(date2);
 	}
 	
-	public static void scrapeIndexSymbols() {
-		File f = new File("stockSymbols.txt");
-		try {
-			FileWriter writer = new FileWriter(f);
-			String url = "https://au.finance.yahoo.com/world-indices/";
-			final Document doc = (Document) Jsoup.connect(url).get();
-			int i = 0;
-			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
-				writer.write(row.select("td:nth-of-type(1)").text());
-				if (i++ == NUM_STOCKS) {break;}
-			}
-			writer.close();
-		}
-		
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static StockDataRow scrapeDate(String symbol, String dateStr) {
+	public static String[] scrapeDate(String symbol, String dateStr) {
 		// dateStr is in format yyyy-mm-dd
 		String url = BASE_URL;
 		
@@ -115,10 +90,10 @@ public class Scraper {
 					 * contain no stock data yet, and are represented
 					 * with a hyphen ("-") symbol. */
 					if (open.equals("-")) {
-//						String[] ret = new String[5];
-//						Arrays.fill(ret, "Data not available yet");
-//						ret[0] = symbol;
-						return null;
+						String[] ret = new String[5];
+						Arrays.fill(ret, "Data not available yet");
+						ret[0] = symbol;
+						return ret;
 					}
 					
 					String high = row.select("td:nth-of-type(3)").text();
@@ -134,9 +109,7 @@ public class Scraper {
 					close = close.replaceAll(",", "");
 					adjClose = adjClose.replaceAll(",", "");
 					
-//					return new String[] {open, high, low, close, adjClose};
-					return new StockDataRow(symbol, dateStr,
-							open, high, low, close, adjClose);
+					return new String[] {open, high, low, close, adjClose};
 				}
 			}
 		}
@@ -148,7 +121,7 @@ public class Scraper {
 		return null;
 	}
 	
-	public static List<StockDataRow> scrapeHistory(String symbol, int numDays) {
+	public static TreeMap<LocalDate, String[]> scrapeHistory(String symbol, int numDays) {
 		/*
 		 * This method scrapes historical stock price data from YahooFinance.
 		 * There are five data attributes read from the database:
@@ -177,7 +150,7 @@ public class Scraper {
 				break;
 		}
 		
-		List<StockDataRow> dB = new ArrayList<>();
+		TreeMap<LocalDate, String[]> dB = new TreeMap<>();
 		
 		try {
 			final Document doc = (Document) Jsoup.connect(url).get();
@@ -219,9 +192,8 @@ public class Scraper {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 				LocalDate date = LocalDate.parse(dateStr, formatter);
 				
-//				String[] values = new String[] {open, high, low, close, adjClose};
-				dB.add(new StockDataRow(symbol, date.toString(),
-						open, high, low, close, adjClose));
+				String[] values = new String[] {open, high, low, close, adjClose};
+				dB.put(date, values);
 				
 				if (++counter == numDays) {break;}
 			}

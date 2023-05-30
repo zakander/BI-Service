@@ -1,4 +1,4 @@
-package com.zakander.stockpredictionservice;
+package com.zakander.stockscraperservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories("com.zakander.stockscraperservice.repository")
 @EnableAutoConfiguration
-public class StockPredictionServiceApplication {
+public class StockScraperServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(StockPredictionServiceApplication.class, args);
+		SpringApplication.run(StockScraperServiceApplication.class, args);
 	}
 
 }

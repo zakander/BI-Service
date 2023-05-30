@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zakander.stockpredictionservice.entity.Post;
-import com.zakander.stockpredictionservice.entity.StockPredictionsData;
+import com.zakander.stockpredictionservice.entities.Post;
+import com.zakander.stockpredictionservice.entities.StockPredictionsData;
 import com.zakander.stockpredictionservice.predictionmodel.PredictionModel;
 
 import jakarta.validation.Valid;

@@ -98,8 +98,4 @@ public class StockDataRow {
 	public void setAdjClose(String adjClose) {
 		this.adjClose = adjClose;
 	}
-	
-	public String[] getValues() {
-		return new String[] {open, high, low, close, adjClose};
-	}
 }

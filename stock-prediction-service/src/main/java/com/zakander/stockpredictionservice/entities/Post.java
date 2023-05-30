@@ -1,6 +1,6 @@
-package com.zakander.stockpredictionservice.entity;
+package com.zakander.stockpredictionservice.entities;
 
-import com.zakander.stockpredictionservice.entity.StockPredictionsData.ModelType;
+import com.zakander.stockpredictionservice.entities.StockPredictionsData.ModelType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
