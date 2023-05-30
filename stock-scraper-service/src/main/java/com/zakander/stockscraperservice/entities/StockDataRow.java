@@ -5,11 +5,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
-@Entity
 @DynamoDBTable(tableName="stock_data")
 public class StockDataRow {
 	@Id
@@ -20,13 +18,9 @@ public class StockDataRow {
 	private String dateStr;
 	
 	private String open;
-	
 	private String high;
-	
 	private String low;
-	
 	private String close;
-	
 	private String adjClose;
 	
 	public StockDataRow() {}

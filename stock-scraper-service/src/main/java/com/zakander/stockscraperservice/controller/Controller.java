@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zakander.stockscraperservice.entities.Post;
 import com.zakander.stockscraperservice.entities.StockDataRow;
-import com.zakander.stockscraperservice.repository.IDataRepository;
+import com.zakander.stockscraperservice.repository.DataRepository;
 import com.zakander.stockscraperservice.scraper.Scraper;
 
 @RestController
 public class Controller {
 	@Autowired
-	private IDataRepository repository;
+	private DataRepository repository;
 	
 	@GetMapping("/row/{stockSymbol}/{dateStr}")
 	public StockDataRow geteStockDataRowByKeys(
 			@PathVariable("stockSymbol") String symbol,
 			@PathVariable("dateStr") String dateStr) {
-		StockDataRow row = repository.findByStockSymbolAndDateStr(symbol, dateStr);
+		StockDataRow row = repository.findBySymbolAndDate(symbol, dateStr);
 		assert row != null;
 		return row;
 	}

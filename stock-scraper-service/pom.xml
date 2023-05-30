@@ -174,6 +174,13 @@
 			<version>1.21.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodbmapper-v1 -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>dynamodbmapper-v1</artifactId>
+			<version>2.0.0-preview-13</version>
+		</dependency>
 	
 	</dependencies>
 
