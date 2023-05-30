@@ -154,9 +154,6 @@ private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
 		
 		try {
 			final Document doc = (Document) Jsoup.connect(url).get();
-			
-//			String name = (doc.select("div.D\\(iB\\) h1").text());
-			
 			int counter = 0;
 			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
 				
