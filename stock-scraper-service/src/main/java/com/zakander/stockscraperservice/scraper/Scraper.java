@@ -62,7 +62,7 @@ public class Scraper {
 	}
 	
 	public static void scrapeSymbols() {
-		File f = new File("stockSymbols.txt");
+		File f = new File("stocksymbols.txt");
 		try {
 			FileWriter writer = new FileWriter(f);
 			// index url
@@ -258,7 +258,7 @@ public class Scraper {
 	}
 	
 	public static void scrapeAll() {
-		File f = new File("stockSymbols.txt");
+		File f = new File("stocksymbols.txt");
 		try {
 			Scanner sc = new Scanner(f);
 			while (sc.hasNextLine()) {
