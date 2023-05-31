@@ -22,9 +22,6 @@ public class Config {
 	@Value("${amazon.aws.secretkey}")
 	private String secretKey;
 	
-	@Value("${amazon.aws.region}")
-	private String region;
-	
 	public DynamoDBMapper dynamoDBMapper() {
 		return new DynamoDBMapper(amazonDynamoDB());
 	}
