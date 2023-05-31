@@ -1,10 +1,10 @@
-package com.zakander.stockscraperservice;
+package com.zakander.stockdatedataservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StockScraperServiceApplicationTests {
+class StockDateDataServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

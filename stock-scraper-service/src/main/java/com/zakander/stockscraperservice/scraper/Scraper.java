@@ -1,17 +1,20 @@
 package com.zakander.stockscraperservice.scraper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.zakander.stockscraperservice.entities.StockDataRow;
 
 /*
@@ -23,6 +26,9 @@ import com.zakander.stockscraperservice.entities.StockDataRow;
  * high, low, close and adjusted closing prices.
  */
 public class Scraper {
+	@Autowired
+	private static DynamoDBMapper mapper;
+	
 	private static final String BASE_URL = "https://au.finance.yahoo.com/quote/";
 	private static final int NUM_STOCKS = 10;
 	public enum StockType {
@@ -55,17 +61,37 @@ public class Scraper {
 		return date1.equals(date2);
 	}
 	
-	public static void scrapeIndexSymbols() {
+	public static void scrapeSymbols() {
 		File f = new File("stockSymbols.txt");
 		try {
 			FileWriter writer = new FileWriter(f);
+			// index url
 			String url = "https://au.finance.yahoo.com/world-indices/";
-			final Document doc = (Document) Jsoup.connect(url).get();
+			Document doc = (Document) Jsoup.connect(url).get();
 			int i = 0;
 			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
 				writer.write(row.select("td:nth-of-type(1)").text());
 				if (i++ == NUM_STOCKS) {break;}
 			}
+			
+			// currency url
+			url = "https://au.finance.yahoo.com/currencies/";
+			doc = (Document) Jsoup.connect(url).get();
+			i = 0;
+			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
+				writer.write(row.select("td:nth-of-type(1)").text());
+				if (i++ == NUM_STOCKS) {break;}
+			}
+			
+			// crypto url
+			url = "https://au.finance.yahoo.com/crypto/";
+			doc = (Document) Jsoup.connect(url).get();
+			i = 0;
+			for (Element row : doc.select("table.W\\(100\\%\\) tr")) {
+				writer.write(row.select("td:nth-of-type(1)").text());
+				if (i++ == NUM_STOCKS) {break;}
+			}
+			
 			writer.close();
 		}
 		
@@ -75,7 +101,7 @@ public class Scraper {
 		}
 	}
 	
-	public static StockDataRow scrapeDate(String symbol, String dateStr) {
+	public static String[] scrapeDate(String symbol, String dateStr) {
 		// dateStr is in format yyyy-mm-dd
 		String url = BASE_URL;
 		
@@ -134,9 +160,7 @@ public class Scraper {
 					close = close.replaceAll(",", "");
 					adjClose = adjClose.replaceAll(",", "");
 					
-//					return new String[] {open, high, low, close, adjClose};
-					return new StockDataRow(symbol, dateStr,
-							open, high, low, close, adjClose);
+					return new String[] {open, high, low, close, adjClose};
 				}
 			}
 		}
@@ -148,7 +172,7 @@ public class Scraper {
 		return null;
 	}
 	
-	public static List<StockDataRow> scrapeHistory(String symbol, int numDays) {
+	public static TreeMap<LocalDate, String[]> scrapeHistory(String symbol, int numDays) {
 		/*
 		 * This method scrapes historical stock price data from YahooFinance.
 		 * There are five data attributes read from the database:
@@ -177,7 +201,7 @@ public class Scraper {
 				break;
 		}
 		
-		List<StockDataRow> dB = new ArrayList<>();
+		TreeMap<LocalDate, String[]> dB = new TreeMap<>();
 		
 		try {
 			final Document doc = (Document) Jsoup.connect(url).get();
@@ -220,8 +244,7 @@ public class Scraper {
 				LocalDate date = LocalDate.parse(dateStr, formatter);
 				
 //				String[] values = new String[] {open, high, low, close, adjClose};
-				dB.add(new StockDataRow(symbol, date.toString(),
-						open, high, low, close, adjClose));
+				dB.put(date, new String[] {open, high, low, close, adjClose});
 				
 				if (++counter == numDays) {break;}
 			}
@@ -232,5 +255,27 @@ public class Scraper {
 		}
 		
 		return dB;
+	}
+	
+	public static void scrapeAll() {
+		File f = new File("stockSymbols.txt");
+		try {
+			Scanner sc = new Scanner(f);
+			while (sc.hasNextLine()) {
+				String symbol = sc.nextLine();
+				TreeMap<LocalDate, String[]> dB = scrapeHistory(symbol, 365);
+				for (LocalDate date : dB.keySet()) {
+					String[] values = dB.get(date);
+					mapper.save(new StockDataRow(symbol, date.toString(),
+							values[0], values[1], values[2], values[3], values[4]));
+				}
+			}
+			sc.close();
+		}
+		
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zakander</groupId>
-	<artifactId>stock-scraper-service</artifactId>
+	<artifactId>stock-date-data-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>stock-scraper-service</name>
-	<description>Stock data scraping service</description>
+	<name>stock-date-data-service</name>
+	<description>Stock data loading service</description>
 	<properties>
 		<java.version>20</java.version>
 	</properties>

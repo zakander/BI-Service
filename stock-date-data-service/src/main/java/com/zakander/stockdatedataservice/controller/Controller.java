@@ -1,4 +1,4 @@
-package com.zakander.stockscraperservice.controller;
+package com.zakander.stockdatedataservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zakander.stockscraperservice.entities.Post;
-import com.zakander.stockscraperservice.entities.StockDataRow;
-import com.zakander.stockscraperservice.repository.DataRepository;
-import com.zakander.stockscraperservice.scraper.Scraper;
+import com.zakander.stockdatedataservice.entities.Post;
+import com.zakander.stockdatedataservice.entities.StockDataRow;
+import com.zakander.stockdatedataservice.repository.DataRepository;
+import com.zakander.stockdatedataservice.scraper.Scraper;
 
 @RestController
 public class Controller {

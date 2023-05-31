@@ -1,4 +1,4 @@
-package com.zakander.stockscraperservice.scraper;
+package com.zakander.stockdatedataservice.scraper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

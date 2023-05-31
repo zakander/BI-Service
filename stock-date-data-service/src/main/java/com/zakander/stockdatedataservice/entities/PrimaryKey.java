@@ -1,4 +1,4 @@
-package com.zakander.stockscraperservice.entities;
+package com.zakander.stockdatedataservice.entities;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;

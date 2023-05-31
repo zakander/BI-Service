@@ -1,11 +1,11 @@
-package com.zakander.stockscraperservice.repository;
+package com.zakander.stockdatedataservice.repository;
 
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.zakander.stockscraperservice.entities.StockDataRow;
+import com.zakander.stockdatedataservice.entities.StockDataRow;
 
 @EnableScan
 @Repository

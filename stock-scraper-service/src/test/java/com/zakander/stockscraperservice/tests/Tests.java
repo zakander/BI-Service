@@ -2,13 +2,11 @@ package com.zakander.stockscraperservice.tests;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.TreeMap;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.zakander.stockscraperservice.entities.StockDataRow;
 import com.zakander.stockscraperservice.scraper.Scraper;
 
 public class Tests {
@@ -18,7 +16,7 @@ public class Tests {
 		String dateStr = "2023-04-21";
 		String[] expected = new String[] {"2556.70", "2559.44",
 				"2532.32", "2544.40", "2544.40"};
-		String[] actual = Scraper.scrapeDate(symbol, dateStr).getValues();
+		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
 		Assertions.assertArrayEquals(expected, actual,
 							"Values of date " + dateStr + " do not match");
@@ -30,7 +28,7 @@ public class Tests {
 		String dateStr = "2023-05-10";
 		String[] expected = new String[] {"4.4470", "4.4560",
 				"4.4460", "4.4470", "4.4470"};
-		String[] actual = Scraper.scrapeDate(symbol, dateStr).getValues();
+		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
 		Assertions.assertArrayEquals(expected, actual,
 							"Values of date " + dateStr + " do not match");
@@ -42,7 +40,7 @@ public class Tests {
 		String dateStr = "2023-05-12";
 		String[] expected = new String[] {"9.73", "9.73",
 				"9.36", "9.50", "9.50"};
-		String[] actual = Scraper.scrapeDate(symbol, dateStr).getValues();
+		String[] actual = Scraper.scrapeDate(symbol, dateStr);
 		
 		Assertions.assertArrayEquals(expected, actual,
 							"Values of date " + dateStr + " do not match");
@@ -50,7 +48,7 @@ public class Tests {
 	
 	@Test
 	void testIndexHistory() {
-		List<StockDataRow> data = Scraper.scrapeHistory("^NYA", 50);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("^NYA", 50);
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 		
@@ -81,7 +79,7 @@ public class Tests {
 		int i = 0;
 		for (LocalDate date : expectedValuesArrs.keySet()) {
 			String[] expectedValues = expectedValuesArrs.get(date);
-			String[] actualValues = data.get(i).getValues();
+			String[] actualValues = data.get(date);
 			Assertions.assertArrayEquals(expectedValues, actualValues,
 								"Values of date " + date + " do not match");
 			if (i == 6) {break;}
@@ -90,7 +88,7 @@ public class Tests {
 	
 	@Test
 	void testCurrencyHistory() {
-		List<StockDataRow> data = Scraper.scrapeHistory("AUDNZD=X", 50);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("AUDNZD=X", 50);
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 		
@@ -121,7 +119,7 @@ public class Tests {
 		int i = 0;
 		for (LocalDate date : expectedValuesArrs.keySet()) {
 			String[] expectedValues = expectedValuesArrs.get(date);
-			String[] actualValues = data.get(i).getValues();
+			String[] actualValues = data.get(date);
 			Assertions.assertArrayEquals(expectedValues, actualValues,
 								"Values of date " + date + " do not match");
 			if (i == 6) {break;}
@@ -130,7 +128,7 @@ public class Tests {
 	
 	@Test
 	void testCryptoHistory() {
-		List<StockDataRow> data = Scraper.scrapeHistory("ADA-AUD", 50);
+		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory("ADA-AUD", 50);
 		TreeMap<LocalDate, String[]> expectedValuesArrs = new TreeMap<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 		
@@ -161,7 +159,7 @@ public class Tests {
 		int i = 0;
 		for (LocalDate date : expectedValuesArrs.keySet()) {
 			String[] expectedValues = expectedValuesArrs.get(date);
-			String[] actualValues = data.get(i).getValues();
+			String[] actualValues = data.get(date);
 			Assertions.assertArrayEquals(expectedValues, actualValues,
 								"Values of date " + date + " do not match");
 			if (i == 6) {break;}

@@ -1,4 +1,4 @@
-package com.zakander.stockscraperservice.entities;
+package com.zakander.stockdatedataservice.entities;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package com.zakander.stockscraperservice.config;
+package com.zakander.stockdatedataservice.config;
 
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Value;
