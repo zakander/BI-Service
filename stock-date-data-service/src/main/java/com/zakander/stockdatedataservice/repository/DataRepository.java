@@ -13,19 +13,11 @@ public class DataRepository {
 	@Autowired
 	private DynamoDBMapper mapper;
 	
-	public StockDataRow findById(Integer id) {
-		return mapper.load(StockDataRow.class, id);
-	}
-	
-	public StockDataRow findBySymbolAndDate(String symbol, String dateStr) {
+	public StockDataRow getByKeys(String symbol, String dateStr) {
 		return mapper.load(StockDataRow.class, symbol, dateStr);
 	}
 	
 	public void save(StockDataRow row) {
 		mapper.save(row);
-	}
-
-	public void delete(StockDataRow row) {
-		mapper.delete(row);
 	}
 }
