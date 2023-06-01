@@ -20,11 +20,13 @@ public class Controller {
 	@PostMapping("/scrape")
 	public void scrape() {
 		for (String symbol : StockSymbols.SYMBOLS) {
-			TreeMap<LocalDate, String[]> dB = Scraper.scrapeHistory(symbol, Scraper.NUM_STOCKS);
+			TreeMap<LocalDate, String[]> dB = Scraper.scrapeHistory(
+					symbol, Scraper.NUM_STOCKS);
+			
 			for (LocalDate date : dB.keySet()) {
 				String[] values = dB.get(date);
 				repository.save(new StockDataRow(symbol, date.toString(),
-						values[0], values[1], values[2], values[3], values[4]));
+					values[0], values[1], values[2], values[3], values[4]));
 			}
 		}
 	}

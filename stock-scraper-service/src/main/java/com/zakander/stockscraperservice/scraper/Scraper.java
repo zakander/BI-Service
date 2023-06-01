@@ -205,7 +205,6 @@ public class Scraper {
 				}
 				LocalDate date = LocalDate.parse(dateStr, formatter);
 				
-//				String[] values = new String[] {open, high, low, close, adjClose};
 				dB.put(date, new String[] {open, high, low, close, adjClose});
 				
 				if (++counter == numDays) {break;}

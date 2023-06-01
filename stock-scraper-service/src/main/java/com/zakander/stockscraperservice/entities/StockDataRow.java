@@ -5,15 +5,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
 @DynamoDBTable(tableName = "stock_data")
 public class StockDataRow {
-//	@Id
-//	@GeneratedValue
-//	private Integer id;
-	
 	private String stockSymbol;
 	private String dateStr;
 	
@@ -98,8 +91,4 @@ public class StockDataRow {
 	public void setAdjClose(String adjClose) {
 		this.adjClose = adjClose;
 	}
-	
-//	public String[] getValues() {
-//		return new String[] {open, high, low, close, adjClose};
-//	}
 }
