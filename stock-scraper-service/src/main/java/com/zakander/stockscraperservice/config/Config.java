@@ -14,7 +14,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 @Configuration
-@EnableDynamoDBRepositories
+@EnableDynamoDBRepositories(basePackages = "com.zakander.stockscraperservice.repository")
 public class Config {
 	@Value("${amazon.aws.accesskey}")
 	private String accessKey;

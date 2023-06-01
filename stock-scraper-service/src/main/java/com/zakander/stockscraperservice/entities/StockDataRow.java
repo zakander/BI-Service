@@ -5,14 +5,14 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-@DynamoDBTable(tableName="stock_data")
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+@DynamoDBTable(tableName = "stock_data")
 public class StockDataRow {
-	@Id
-	@GeneratedValue
-	private Integer id;
+//	@Id
+//	@GeneratedValue
+//	private Integer id;
 	
 	private String stockSymbol;
 	private String dateStr;
@@ -99,7 +99,7 @@ public class StockDataRow {
 		this.adjClose = adjClose;
 	}
 	
-	public String[] getValues() {
-		return new String[] {open, high, low, close, adjClose};
-	}
+//	public String[] getValues() {
+//		return new String[] {open, high, low, close, adjClose};
+//	}
 }
