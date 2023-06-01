@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.TreeMap;
 
 import com.zakander.stockpredictionservice.entities.StockPredictionsData.ModelType;
-import com.zakander.stockpredictionservice.scraper.Scraper;
 
 /*
  * The PredictionModel utility class is used to generate stock price
@@ -17,7 +16,7 @@ import com.zakander.stockpredictionservice.scraper.Scraper;
  */
 public class PredictionModel {	
 	
-	public static double[] extractNumericalData(TreeMap<LocalDate, String[]> data, int index) {
+	public static double[] extractNumericalDataCol(TreeMap<LocalDate, String[]> data, int index) {
 		double[] numData = new double[data.size()];
 		int i = 0;
 		for (String[] values : data.values()) {
@@ -55,14 +54,14 @@ public class PredictionModel {
 		return EMA;
 	}
 	
-	public static String[] getPredictions(String symbol, int numDays, ModelType modelType) {
+	public static String[] getPredictions(String symbol, int numDays,
+			ModelType modelType, TreeMap<LocalDate, String[]> historicalData) {
 		
 		String[] predictions = new String[5];
-		TreeMap<LocalDate, String[]> data = Scraper.scrapeHistory(symbol, numDays);
 		
 		for (int i=0; i<5; i++) {
 			
-			double[] numData = extractNumericalData(data, i);
+			double[] numData = extractNumericalDataCol(historicalData, i);
 			
 			if (modelType.equals(ModelType.SMA)) {
 				predictions[i] = String.format("%.2f", SMA(numData));
